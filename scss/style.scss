@@ -1,0 +1,11 @@
+@import "base/polices";
+@import "variable_overrides"; 
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+h1 {
+    font-family: Ravie, Arial, Helvetica, sans-serif;
+}
+
+nav {
+    background: $bg-gradient;
+};

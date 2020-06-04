@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+
+  <title>Orinoco</title>
+</head>
+
+<body>
+   <div id="orinocoList"class="bg-light">
+      <header>
+         <div class="container-fluid px-0">
+            <div class="row">
+               <div class="col">
+                  <nav class="col navbar navbar-expand-lg navbar-light font-weight-bold">
+                     <h1 class="pr-lg-5">Orinoco</h1>
+                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
+                        <span class="navbar-toggler-icon"></span>
+                     </button>
+                     <div id="navbarContent" class="collapse navbar-collapse">
+                        <ul class="navbar-nav align-items-center">
+                           <li class="nav-item active px-lg-3">
+                              <a class="nav-link" href="index.html">Accueil</a>
+                           </li>
+                           <li class="nav-item px-lg-3">
+                              <a class="nav-link" href="panier.html"><i class="glyphicon glyphicon-shopping-cart"></i></a>
+                           </li>
+                           <li class="nav-item px-lg-3">
+                              <button class=""> 
+                                 <i class="fas fa-th-list fa-2x"></i>
+                              </button>
+                           </li>
+                        </ul>
+                     </div>
+                     <form class="form-inline my-2 my-lg-0"> 
+                        <input class="form-control pr-5" id="searchInput" type="text" placeholder="Recherche...">
+                        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Rechercher</button>
+                     </form>
+                  </nav>
+               </div>
+            </div>
+         </div>
+
+         <div class="container">
+            <div class="row d-flex justify-content-center">
+               <img src="./JWDP5-master/images/Orinoco.png" alt="Logo Site" class="col-8 col-md-5">
+            </div>
+         </div>
+   </header>
+
+      <section class="container">
+         <div class="row pb-1 pb-md-3">
+            <article class="col-12 col-md-6 col-lg-4">
+               <div class="card-body">
+                  <img src="./JWDP5-master/images/vcam_1.jpg" alt="camera 1" class="card-img-bottom">
+                  <h5 class="card-title">Caméra Kodak</h5>
+                  <p class="card-text">
+                     L'une des premières caméra résistant au choc grace à son revêtment rembourré.
+                  </p>
+                  <p class="card-text font-weight-bold">
+                     Prix : <span class="font-italic">385 €</span>
+                  </p>
+               </div>
+            </article>
+
+            <article class="col-12 col-md-6 col-lg-4">
+               <div class="card-body">
+                  <img src="./JWDP5-master/images/vcam_2.jpg" alt="camera 2" class="card-img-bottom">
+                  <h5 class="card-title">Caméra NX315</h5>
+                  <p class="card-text">
+                     C'est ce modèle de caméra qui à ouvert la voix au numérique grace à son capteur optique haute résolution.
+                  </p>
+                  <p class="card-text font-weight-bold">
+                     Prix : <span class="font-italic">260 €</span>
+                  </p>
+               </div>
+            </article>
+
+            <article class="col-12 col-md-6 col-lg-4">
+               <div class="card-body">
+                  <img src="./JWDP5-master/images/vcam_3.jpg" alt="camera 3" class="card-img-bottom">
+                  <h5 class="card-title">Caméra accordéon</h5>
+                  <p class="card-text">
+                     Cette caméra est l'une des premières générations avec système d'accordéon.
+                  </p>
+                  <p class="card-text font-weight-bold">
+                     Prix : <span class="font-italic">580 €</span>
+                  </p>
+               </div>
+            </article>
+
+            <article class="col-12 col-md-6 col-lg-4">
+               <div class="card-body">
+                  <img src="./JWDP5-master/images/vcam_4.jpg" alt="camera 4" class="card-img-bottom">
+                  <h5 class="card-title">Caméra Minotta avec Objectif 8x</h5>
+                  <p class="card-text">
+                     Dès la sortie sur le marché, cette caméra a été un modèle très populaire.
+                  </p>
+                  
+                  <p class="card-text font-weight-bold">
+                     Prix : <span class="font-italic">340 €</span>
+                  </p>
+               </div>
+            </article>
+
+            <article class="col-12 col-md-6 col-lg-4">
+               <div class="card-body">
+                  <img src="./JWDP5-master/images/vcam_5.jpg" alt="camera 5" class="card-img-bottom">
+                  <h5 class="card-title">Caméra reflex 5</h5>
+                  <p class="card-text">
+                     Cette caméra est la parfaite réprésentation des appareils mélant haute téchnologie et qualité.
+                  </p>
+                  
+                  <p class="font-weight-bold">
+                     Prix : <span class="font-italic">395 €</span>
+                  </p>
+               </div>
+            </article>
+         </div>
+      </section>
+
+      <footer class="">
+
+      </footer>
+   </div>
+
+   <script>
+        $(document).ready(function(){
+           $("#searchInput").on("keyup", function() {
+              var value = $(this).val().toLowerCase();
+              $("#orinocoList .col-12").filter(function() {
+                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+              });
+           });
+        });
+   </script>
+
+     <script src="node_modules/jquery/dist/jquery.min.js"></script>
+     <script src="node_modules/@popperjs/core/dist/umd/popper-base.min.js"></script>
+     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
