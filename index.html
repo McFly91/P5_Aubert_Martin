@@ -12,9 +12,10 @@
 </head>
 
 <body>
-   <div id="orinocoList"class="bg-light">
+   <div class="bg-light">
+
       <header>
-         <div class="container-fluid px-0">
+         <div class="container-fluid">
             <div class="row">
                <div class="col">
                   <nav class="col navbar navbar-expand-lg navbar-light font-weight-bold">
@@ -46,7 +47,7 @@
                <img src="./JWDP5-master/images/Orinoco.png" alt="Logo Site" class="col-8 col-md-5">
             </div>
          </div>
-   </header>
+      </header>
 
       <section class="container">
          <div class="row pb-1 pb-md-3">
@@ -77,21 +78,21 @@
          </div>
       </section>
 
-      <footer class="">
-
+      <footer class="container">
+            <ul class="list-inline d-flex justify-content-center py-2 my-0">
+               <li class="list-inline-item">
+                  <a href="#">Mentions légales</a>
+               </li>
+               <li class="list-inline-item">
+                  -
+               </li>
+               <li class="list-inline-item">
+                  <a href="#">Contactez-nous</a>
+               </li>
+            </ul>
       </footer>
-   </div>
 
-   <script>
-        $(document).ready(function(){
-           $("#searchInput").on("keyup", function() {
-              var value = $(this).val().toLowerCase();
-              $("#orinocoList .col-12").filter(function() {
-                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-              });
-           });
-        });
-   </script>
+   </div>
 
      <script src="node_modules/jquery/dist/jquery.min.js"></script>
      <script src="node_modules/@popperjs/core/dist/umd/popper-base.min.js"></script>
