@@ -22,7 +22,6 @@ const createDescription = (descriptionCam, id) => {
     a.href = id + ".html";
     a.innerHTML = "<Strong>Description : </Strong>" + descriptionCam;
     a.classList.add("card-text");
-    a.classList.add("stretched-link");
     a.style.color = "black";
     document.getElementById(id).append(a);
 };
@@ -32,7 +31,7 @@ const createImg = (imageCam, id) => {
     let img = document.createElement('img');
     img.src = imageCam;
     img.classList.add("card-img-bottom");
-    img.style.height = "13rem";
+    img.style.maxWidth = "50%";
     document.getElementById(id).append(img);
 };
 
@@ -65,7 +64,3 @@ let url = ["http://localhost:3000/api/cameras/5be1ed3f1c9d44000030b061", "http:/
 
 // Création d'une carte par produit
 const cardCamera1 = createCard (this.request1, this.nameCam1, this.priceCam1, this.descriptionCam1, this.imageCam1, id[0], url[0]);
-const cardCamera2 = createCard (this.request2, this.nameCam2, this.priceCam2, this.descriptionCam2, this.imageCam2, id[1], url[1]);
-const cardCamera3 = createCard (this.request3, this.nameCam3, this.priceCam3, this.descriptionCam3, this.imageCam3, id[2], url[2]);
-const cardCamera4 = createCard (this.request4, this.nameCam4, this.priceCam4, this.descriptionCam4, this.imageCam4, id[3], url[3]);
-const cardCamera5 = createCard (this.request5, this.nameCam5, this.priceCam5, this.descriptionCam5, this.imageCam5, id[4], url[4]);
