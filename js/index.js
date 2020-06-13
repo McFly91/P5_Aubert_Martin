@@ -1,71 +1,19 @@
-// Fonction création d'un titre
-const createTitle = (nameCam, id) => {
-    let h5 = document.createElement('h5');
-    h5.textContent = nameCam;
-    h5.classList.add("card-title");
-    document.getElementById(id).prepend(h5);
-};
-
-// Fonction création d'un prix
-const createPrice = (priceCam, id) => {
-    let p = document.createElement('p');
-    p.textContent = "Price : " + priceCam;
-    p.classList.add("card-text");
-    p.classList.add("font-weight-bold");
-    p.style.color = "red";
-    document.getElementById(id).append(p);
-};
-
-// Fonction création d'une description avce lien étendu sur l'ensemble de la carte
-const createDescription = (descriptionCam, id) => {
-    let a = document.createElement('a');
-    a.href = id + ".html";
-    a.innerHTML = "<Strong>Description : </Strong>" + descriptionCam;
-    a.classList.add("card-text");
-    a.classList.add("stretched-link");
-    a.style.color = "black";
-    document.getElementById(id).append(a);
-};
-
-// Fonction création d'une image
-const createImg = (imageCam, id) => {
-    let img = document.createElement('img');
-    img.src = imageCam;
-    img.classList.add("card-img-bottom");
-    img.style.height = "13rem";
-    document.getElementById(id).append(img);
-};
-
-// Fonction création d'une carte
-let request;
-
-const createCard = (request, nameCam, priceCam, descriptionCam, imageCam, id, url) => {
-    
-        request = new XMLHttpRequest();
+let request = new XMLHttpRequest();
       
-        request.onreadystatechange = function() {
-        if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-            let response = JSON.parse(this.responseText);
-            nameCam = response.name;
-            priceCam = response.price;
-            descriptionCam = response.description;
-            imageCam = response.imageUrl;
-            createTitle (nameCam, id);
-            createPrice (priceCam, id);
-            createDescription (descriptionCam, id);
-            createImg (imageCam, id);
-        }
+request.onreadystatechange = function() {
+if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+    let response = JSON.parse(this.responseText); 
+    response.forEach(camera => {
+        let li = document.createElement("li");
+        li.classList.add("list-group-item", "bg-light");
+        document.querySelector(".list-group").append(li);
+        li.innerHTML = "<div class='card-body col-12 col-md-6 mx-auto'><h5 class='card-title'>" + camera.name + 
+        "</h5><p class='card-text font-weight-bold'>" + camera.price + 
+        "</p><a class='card-text text-body stretched-link' href=" + camera._id + ".html>" + camera.description + 
+        "</a><img class='card-img-bottom py-2' src=" + camera.imageUrl + " alt=camera></img></div";
+        console.log("href=" + camera._id + ".html");
+        });
     };
-    request.open("GET", url);
-    request.send();
 };
-
-let id = ["camera-1", "camera-2", "camera-3", "camera-4", "camera-5"];
-let url = ["http://localhost:3000/api/cameras/5be1ed3f1c9d44000030b061", "http://localhost:3000/api/cameras/5be1ef211c9d44000030b062", "http://localhost:3000/api/cameras/5be9bc241c9d440000a730e7", "http://localhost:3000/api/cameras/5be9c4471c9d440000a730e8", "http://localhost:3000/api/cameras/5be9c4c71c9d440000a730e9"];
-
-// Création d'une carte par produit
-const cardCamera1 = createCard (this.request1, this.nameCam1, this.priceCam1, this.descriptionCam1, this.imageCam1, id[0], url[0]);
-const cardCamera2 = createCard (this.request2, this.nameCam2, this.priceCam2, this.descriptionCam2, this.imageCam2, id[1], url[1]);
-const cardCamera3 = createCard (this.request3, this.nameCam3, this.priceCam3, this.descriptionCam3, this.imageCam3, id[2], url[2]);
-const cardCamera4 = createCard (this.request4, this.nameCam4, this.priceCam4, this.descriptionCam4, this.imageCam4, id[3], url[3]);
-const cardCamera5 = createCard (this.request5, this.nameCam5, this.priceCam5, this.descriptionCam5, this.imageCam5, id[4], url[4]);
+request.open("GET", "http://localhost:3000/api/cameras");
+request.send();
