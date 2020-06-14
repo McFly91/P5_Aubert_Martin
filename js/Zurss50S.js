@@ -5,30 +5,29 @@ request.onreadystatechange = function() {
         let response = JSON.parse(this.responseText);
         let responseCamera = response[0];
         console.log(responseCamera);
-
-        let divLenses = document.createElement("div");
-        divLenses.id = "lenses"
-        divLenses.classList.add("dropdown");
-        document.getElementById('camera').prepend(divLenses);
-        divLenses.innerHTML = "<button class='my-2 btn btn-secondary dropdown-toggle' type='button' data-toggle='dropdown'>Lentilles</button>";
-        let divMenuLenses = document.createElement("div");
-        divMenuLenses.id = "lenses-menu"
-        divMenuLenses.classList.add("dropdown-menu");
-        document.getElementById("lenses").append(divMenuLenses);
+        // Création de la personnalisation des lentilles
+        let selectLenses = document.createElement("select");
+        selectLenses.id = "lenses"
+        selectLenses.classList.add("my-2", "browser-default", "custom-select");
+        document.getElementById('camera').prepend(selectLenses);
+        let optionMenu = document.createElement("option");
+        optionMenu.value = "selected";
+        document.getElementById("lenses").prepend(optionMenu);
+        optionMenu.textContent = "Lentilles :"
         responseLenses = responseCamera.lenses;
         responseLenses.forEach(lense => {
-            let pItemLenses = document.createElement("p");
-            pItemLenses.classList.add("dropdown-item");
-            document.getElementById("lenses-menu").append(pItemLenses);
-            pItemLenses.textContent = lense;
+        let optionLenses = document.createElement("option");
+        document.getElementById("lenses").append(optionLenses);
+        optionLenses.textContent = lense;
         });
-
+        // Nom et prix de la caméra
         let divNamePrice = document.createElement("div");
         divNamePrice.classList.add("card-body");
         document.getElementById('camera').prepend(divNamePrice);
         divNamePrice.innerHTML = "<h5 class='card-title'>" + responseCamera.name + 
         "</h5><p class='card-text font-weight-bold'>" + responseCamera.price + 
         "</p>";
+        // Description et image de la caméra
         let divDescriptionImage = document.createElement("div");
         divDescriptionImage.classList.add("card-body");
         document.getElementById('camera').append(divDescriptionImage);
