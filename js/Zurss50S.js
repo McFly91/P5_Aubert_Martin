@@ -37,3 +37,41 @@ request.onreadystatechange = function() {
 };
 request.open("GET", "http://localhost:3000/api/cameras");
 request.send();
+
+// Ajout au panier
+
+    let addToCart = document.getElementById("add-to-cart");
+
+    // Ajout d'un article au clic
+    addToCart.addEventListener("click", () => {
+        cameraInCart();
+    });
+
+    // Fonction pour ajouter un article dans le panier
+    const cameraInCart = () => {
+        let cameraNumbers = localStorage.getItem("cameraInCart"); 
+        cameraNumbers = parseInt(cameraNumbers); // On définit le nombre de caméra comme étant un chiffre
+        console.log(typeof cameraNumbers);
+
+        if (cameraNumbers){ // On rajoute une camera dès qu'il y en a une dans le panier
+            localStorage.setItem("cameraInCart", cameraNumbers + 1)
+            document.getElementById("number_in_cart").textContent = cameraNumbers + 1;
+        }
+        else { // On ajoute une première camera dans le panier
+            localStorage.setItem("cameraInCart", 1);
+            document.getElementById("number_in_cart").textContent = 1;
+        }
+    };
+
+    // Fonction pour garder le nombre d'article dans le panier après un chargement de la page
+    const cartNumbers = () => {
+        let cameraNumbers = localStorage.getItem("cameraInCart");
+        if (cameraNumbers) {
+            document.getElementById("number_in_cart").textContent = cameraNumbers;
+        }
+    };
+
+    // Appel de la fonction pour garder le nombre
+    cartNumbers();
+
+
