@@ -1,22 +1,54 @@
+let ajoutId = new URLSearchParams(document.location.search);
+let idCam = ajoutId.get("id");
+console.log(idCam);
+
+let url = "http://localhost:3000/api/cameras" + "/" + idCam;
+
 let request = new XMLHttpRequest();
 
-let url = "http://localhost:3000/api/cameras";
+request.open("GET", url);
+request.send();
       
 request.onreadystatechange = function() {
     if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
         let response = JSON.parse(this.responseText);
+        console.log(response._id)
+        // Creation d'une fonction pour la présentation des caméras une par une
+        const presentationCamera = () => {
+            let camera = response;
+            let lenses = response.lenses;
+                    console.log(camera);
+                    // Création de la personnalisation des lentilles
+                    let selectLenses = document.createElement("select");
+                    selectLenses.id = "lenses"
+                    selectLenses.classList.add("my-2", "browser-default", "custom-select");
+                    document.getElementById('camera').prepend(selectLenses);
+                    let optionMenu = document.createElement("option");
+                    optionMenu.value = "selected";
+                    document.getElementById("lenses").prepend(optionMenu);
+                    optionMenu.textContent = "Lentilles :"
+                    
+                    lenses.forEach(lense => {
+                    let optionLenses = document.createElement("option");
+                    document.getElementById("lenses").append(optionLenses);
+                    optionLenses.textContent = lense;
+                    });
+                    // Nom et prix de la caméra
+                    let divNamePrice = document.createElement("div");
+                    divNamePrice.classList.add("card-body");
+                    document.getElementById('camera').prepend(divNamePrice);
+                    divNamePrice.innerHTML = "<h5 class='card-title'>" + camera.name + 
+                    "</h5><p class='card-text font-weight-bold'>" + camera.price + 
+                    "</p>";
+                    // Description et image de la caméra
+                    let divDescriptionImage = document.createElement("div");
+                    divDescriptionImage.classList.add("card-body");
+                    document.getElementById('camera').append(divDescriptionImage);
+                    divDescriptionImage.innerHTML = "<p class='card-text'>" + camera.description + 
+                    "</p><img class='card-img-bottom py-2' src=" + camera.imageUrl + " alt=camera></img></div";
+        };
 
-        response.forEach(camera => {
-        let li = document.createElement("li");
-        li.classList.add("list-group-item", "bg-light");
-        document.querySelector(".list-group").append(li);
-        li.innerHTML = "<div class='card-body col-12 col-md-6 mx-auto'><h5 class='card-title'>" + camera.name + 
-        "</h5><p class='card-text font-weight-bold'>" + camera.price + 
-        "</p><a class='card-text text-body stretched-link' id='link_camera' href='produit.html?id=" + camera._id + "'>" + camera.description + 
-        "</a><img class='card-img-bottom py-2' src=" + camera.imageUrl + " alt='camera'></img></div";
-        console.log("href=" + camera.name.replace(/ /g, "") + ".html");
-        console.log(camera._id);
-        });
+        presentationCamera();
 
             // Ajout au panier
 
@@ -95,5 +127,3 @@ request.onreadystatechange = function() {
             cart();
     };
 };
-request.open("GET", url);
-request.send();
