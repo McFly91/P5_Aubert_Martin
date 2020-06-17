@@ -29,7 +29,7 @@
                               <a class="nav-link" href="index.html">Accueil</a>
                            </li>
                            <li class="nav-item px-lg-3">
-                              <a class="nav-link" href="panier.html"><i class="fa fa-shopping-cart fa-2x"></i></a>
+                              <a class="nav-link" href="panier.html"><i class="fa fa-shopping-cart fa-2x"></i><span id="number_in_cart">0</span></a>
                            </li>
                         </ul>
                      </div>
@@ -56,9 +56,11 @@
                    <th>Article</th>
                    <th>Prix</th>
                    <th>Quantité</th>
+                   <th>Total</th>
                </tr>
             </thead>
-            <tbody id="cart-tablebody"></tbody>
+            <tbody id="cart_table">
+            </tbody>
         </table>
         
         <p>Prix total : <span class="subtotal"></span></p>
