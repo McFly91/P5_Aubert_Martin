@@ -99,15 +99,13 @@ request.onreadystatechange = function() {
                     let newCamera = true;
                     console.log(idCamera);
                     cameraInCart.forEach(cameraStorage => {
-                        if (cameraStorage._id === idCamera) {
+                        if (cameraStorage._id === idCamera) { // On vérifie si la caméra est déjà présente dans le pnaier et on incrémente
                             newCamera = false;
                             cameraStorage.inCart +=1;
-                            console.log("boucle if");
                         };
                     });
                         if (newCamera) {
                             cameraStorage.inCart = 1;
-                            console.log("boucle else"); 
                             cameraInCart.push(cameraStorage);
                         };
                         localStorage.setItem("cameraInCart", JSON.stringify(cameraInCart));
@@ -115,7 +113,7 @@ request.onreadystatechange = function() {
             };
 
             const saveCart = (cameraInCart) => {
-                localStorage.setItem("cameraInCart", JSON.stringify(cameraInCart));
+                localStorage.setItem("cameraInCart", JSON.stringify(cameraInCart), 5);
             };
 
             // Fonction pour garder le nombre d'article dans le panier après un chargement de la page
