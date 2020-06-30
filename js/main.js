@@ -13,7 +13,6 @@ request.onreadystatechange = function() {
         "</h5><p class='card-text font-weight-bold'>" + camera.price + 
         "</p><a class='card-text text-body stretched-link' id='link_camera' href='produit.html?id=" + camera._id + "'>" + camera.description + 
         "</a><img class='card-img-bottom py-2' src=" + camera.imageUrl + " alt='camera'></img></div";
-        console.log(camera._id);
         });
 
             // Fonction pour garder le nombre d'article dans le panier après un chargement de la page
@@ -24,7 +23,6 @@ request.onreadystatechange = function() {
                 }
             };
 
-            // Appel de la fonction pour garder le nombre
             cartNumbers();
     };
 };

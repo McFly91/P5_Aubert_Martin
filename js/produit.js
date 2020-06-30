@@ -1,12 +1,6 @@
 let idUrl= new URLSearchParams(document.location.search);
-let idCamera = idUrl.get("id");
-console.log(idCamera);
-
+let idCamera = idUrl.get("id"); // On récupère l'ID de la caméra
 let url = "http://localhost:3000/api/cameras" + "/" + idCamera;
-
-let cameraInCart = []; // Création d'un tableau qui recupère chaque ajout dans le panier
-localStorage.setItem("cameraInCart", JSON.stringify(cameraInCart));
-
 let request = new XMLHttpRequest();
 
 request.open("GET", url);
@@ -15,7 +9,7 @@ request.send();
 request.onreadystatechange = function() {
     if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
         let response = JSON.parse(this.responseText);
-        console.log(response._id)
+        
         // Creation d'une fonction pour la présentation des caméras une par une
         const presentationCamera = () => {
             let camera = response;
@@ -53,78 +47,76 @@ request.onreadystatechange = function() {
         };
         presentationCamera();
 
-            // Ajout au panier
+        // Ajout au panier
 
-            let addToCart = document.getElementById("add-to-cart");
-            console.log(response);
+        let addToCart = document.getElementById("add-to-cart");
 
-            // Ajout d'un article au clic
-            if (addToCart) {
-                addToCart.addEventListener("click", () => {
+        // Ajout d'un article au clic
+        if (addToCart) {
+            addToCart.addEventListener("click", () => {                
+                numberInCart();
                 
-                    numberInCart();  
-
-                // Création d'un objet contenant les informations à retourner à la page
-                    let cameraStorage = {
-                    name : response.name, 
-                    price : response.price,
-                    image : response.imageUrl,
-                    _id : response._id,
-                    inCart : 0
-                    };
-
-                cameraInStorage(cameraStorage);
-                saveCart(cameraInCart);
-            });
-        }
-
-            // Fonction pour ajouter un article dans le panier
-            const numberInCart = () => {
-                let cameraNumbers = localStorage.getItem("totalInCart"); 
-                cameraNumbers = parseInt(cameraNumbers); // On définit le nombre de caméra comme étant un chiffre
-                if (cameraNumbers){ // On rajoute une camera dès qu'il y en a une dans le panier
-                    localStorage.setItem("totalInCart", cameraNumbers + 1)
-                    document.getElementById("number_in_cart").textContent = cameraNumbers + 1;
-                }
-                else { // On ajoute une première camera dans le panier
-                    localStorage.setItem("totalInCart", 1);
-                    document.getElementById("number_in_cart").textContent = 1;
-                }
+            // Si il n'y a pas d'article dans Local Storage, on crée un tableau
+            if (localStorage.getItem("cameraInCart") === null) {
+                let cameraInCart = [];
+                localStorage.setItem("cameraInCart", JSON.stringify(cameraInCart));
             };
-            
-            // Fonction pour obtenir le nombre et la description d'articles dans le panier
-            const cameraInStorage = (cameraStorage) => {
-                if (localStorage.getItem("cameraInCart")) {
-                    cameraInCart = JSON.parse(localStorage.getItem("cameraInCart"));
-                    let newCamera = true;
-                    console.log(idCamera);
-                    cameraInCart.forEach(cameraStorage => {
-                        if (cameraStorage._id === idCamera) { // On vérifie si la caméra est déjà présente dans le pnaier et on incrémente
-                            newCamera = false;
-                            cameraStorage.inCart +=1;
-                        };
-                    });
-                        if (newCamera) {
-                            cameraStorage.inCart = 1;
-                            cameraInCart.push(cameraStorage);
-                        };
-                        localStorage.setItem("cameraInCart", JSON.stringify(cameraInCart));
+
+            // Création d'un objet contenant les informations à retourner au panier
+                let cameraStorage = {
+                name : response.name, 
+                price : response.price,
+                image : response.imageUrl,
+                _id : response._id,
+                inCart : 0
+                };
+
+            cameraInStorage(cameraStorage);
+        });
+    };
+
+        // Fonction pour ajouter un article dans le panier
+        const numberInCart = () => {
+            let cameraNumbers = localStorage.getItem("totalInCart"); 
+            cameraNumbers = parseInt(cameraNumbers); // On définit le nombre de caméra comme étant un chiffre
+            if (cameraNumbers){ // On rajoute une camera dès qu'il y en a une dans le panier
+                localStorage.setItem("totalInCart", cameraNumbers + 1)
+                document.getElementById("number_in_cart").textContent = cameraNumbers + 1;
+            }
+            else { // On ajoute une première camera dans le panier
+                localStorage.setItem("totalInCart", 1);
+                document.getElementById("number_in_cart").textContent = 1;
+            }
+        };
+        
+        // Fonction pour obtenir le nombre et la description d'articles dans le panier
+        const cameraInStorage = (cameraStorage) => {
+            if (localStorage.getItem("cameraInCart")) {
+                cameraInCart = JSON.parse(localStorage.getItem("cameraInCart"));
+                let newCamera = true;
+                console.log(idCamera);
+                cameraInCart.forEach(cameraStorage => {
+                    if (cameraStorage._id === idCamera) { // On vérifie si la caméra est déjà présente dans le pnaier et on incrémente
+                        newCamera = false;
+                        cameraStorage.inCart +=1;
+                    };
+                });
+                if (newCamera) {
+                    cameraStorage.inCart = 1;
+                    cameraInCart.push(cameraStorage);
                 };
             };
+            localStorage.setItem("cameraInCart", JSON.stringify(cameraInCart));
+        };
 
-            const saveCart = (cameraInCart) => {
-                localStorage.setItem("cameraInCart", JSON.stringify(cameraInCart), 5);
-            };
-
-            // Fonction pour garder le nombre d'article dans le panier après un chargement de la page
-            const cartNumbers = () => {
-                let cameraNumbers = localStorage.getItem("totalInCart");
-                if (cameraNumbers) {
-                    document.getElementById("number_in_cart").textContent = cameraNumbers;
-                }
-            };
-
-            // Appel de la fonction pour garder le nombre
-            cartNumbers();
+        // Fonction pour garder le nombre d'article dans le panier après un chargement de la page
+        const cartNumbers = () => {
+            let cameraNumbers = localStorage.getItem("totalInCart");
+            if (cameraNumbers) {
+                document.getElementById("number_in_cart").textContent = cameraNumbers;
+            }
+        };
+        
+        cartNumbers();
     };
 };
