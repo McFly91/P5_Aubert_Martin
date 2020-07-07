@@ -18,8 +18,8 @@
       <header>
          <div class="container-fluid">
             <div class="row">
-               <div class="col">
-                  <nav class="col navbar navbar-expand-lg navbar-light font-weight-bold">
+               <div class="col px-0">
+                  <nav class="col navbar navbar-expand-lg navbar-light font-weight-bold rounded">
                      <h1 class="pr-lg-5">Orinoco</h1>
                      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
                         <span class="navbar-toggler-icon"></span>
@@ -34,10 +34,6 @@
                            </li>
                         </ul>
                      </div>
-                     <form class="form-inline my-2 my-lg-0"> 
-                        <input class="form-control pr-5" id="searchInput" type="text" placeholder="Recherche...">
-                        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Rechercher</button>
-                     </form>
                   </nav>
                </div>
             </div>
@@ -64,19 +60,24 @@
             </tbody>
         </table>
         
-        <div class="my-5 font-weight-bold">
-           Prix total : <span class="subtotal" id="total"></span>
+        <div class="my-5 font-weight-bold text-right">
+           <p>
+              Total : <span class="subtotal" id="total"></span>
+            </p>
+           <button class="btn btn-danger" id="clear">
+            Vider le panier
+           </button> 
         </div>
 
          <form id="form" name="form" class="needs-validation" method="POST" novalidate>
             <div class="form-row justify-content-center">
                <div class="col-md-4 mb-3">
-                  <label for="validationCustom01">Prénom</label>
-                  <input type="text" class="form-control" id="validationCustom01" name="Prénom" placeholder="Prénom" value="" pattern="[a-zA-Z]{2,}" required>
+                  <label for="validationServer01">Prénom</label>
+                  <input type="text" class="form-control" id="validationServer01" name="Prénom" placeholder="Prénom" value="" pattern="[a-zA-Z]{2,}" required>
                </div>
                <div class="col-md-4 mb-3">
-                  <label for="validationCustom02">Nom</label>
-                  <input type="text" class="form-control" id="validationCustom02" name="Nom" placeholder="Nom" value="" pattern="[a-zA-Z]{2,}" required>
+                  <label for="validationServer02">Nom</label>
+                  <input type="text" class="form-control" id="validationServer02" name="Nom" placeholder="Nom" value="" pattern="[a-zA-Z]{2,}" required>
                </div>
             </div>
             
@@ -99,7 +100,7 @@
                </div>
             </div>
             <div class="form-row justify-content-center">
-               <input class="btn btn-primary" type="submit" value="Passer commande">
+               <input class="btn btn-primary" id="form_submit" type="submit" value="Passer commande">
             </div>
          </form>
       </section>
