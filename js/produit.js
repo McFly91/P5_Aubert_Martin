@@ -1,6 +1,6 @@
 let idUrl= new URLSearchParams(document.location.search);
 let idCamera = idUrl.get("id"); // On récupère l'ID de la caméra
-let url = "http://localhost:3000/api/cameras" + "/" + idCamera;
+let url = "http://localhost:3000/api/cameras/" + idCamera;
 let request = new XMLHttpRequest();
 
 request.open("GET", url);

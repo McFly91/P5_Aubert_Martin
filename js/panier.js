@@ -68,17 +68,21 @@ product = JSON.parse(product);
 let products = [];
 
 // On récupère l'ID des caméras qu'on insère dans un tableau products
-for (let i =0; i < product.length; i++) {
+if (product !== null) {
+    for (let i =0; i < product.length; i++) {
     products.push(product[i]._id);
+    };
 };
-console.log(products);
 
+// On envoie le formulaire dès l'appui sur le bouton passer commande
 form.addEventListener("submit", (event) => {
     event.preventDefault();
     
     let request = new XMLHttpRequest();
     console.log(request);
     request.open("POST", "http://localhost:3000/api/cameras/order");
+
+    // On vérifie l'état de la requête et on récupère l'ID de confirmation
     request.onreadystatechange = function () {
       if(request.readyState === XMLHttpRequest.DONE) {
         let status = request.status;
@@ -87,13 +91,12 @@ form.addEventListener("submit", (event) => {
           let response = JSON.parse(this.responseText);
           let orderId = response.orderId;
           localStorage.setItem("orderId", orderId);
-          console.log(orderId);
         } 
         else {
           console.log("There has been an error with the request!");
-        }
-      }
-    }
+        };
+      };
+    };
 
     // On crée un objet contact qui récupère toutes les infos saisies dans les champs du formulaire
     let contact = {
@@ -107,8 +110,11 @@ form.addEventListener("submit", (event) => {
     request.setRequestHeader("Content-Type", "application/json");
     request.send(JSON.stringify({contact, products}));
 
-    if (localStorage.getItem("orderId")) {
-        window.location.href = 'confirmation.html';
-    };
+    // On redirige vers la page confirmation dès qu'on a récupéré l"ID de confirmation
+        setTimeout(function() {
+            if (localStorage.getItem("orderId")) {
+            window.location.href = "confirmation.html";
+            }
+        }, 500);
 });
 
