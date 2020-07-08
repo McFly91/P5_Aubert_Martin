@@ -18,8 +18,8 @@
       <header>
          <div class="container-fluid">
             <div class="row">
-               <div class="col">
-                  <nav class="col navbar navbar-expand-lg navbar-light font-weight-bold">
+               <div class="col px-0">
+                  <nav class="col navbar navbar-expand-lg navbar-light font-weight-bold rounded">
                      <h1 class="pr-lg-5">Orinoco</h1>
                      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
                         <span class="navbar-toggler-icon"></span>
@@ -42,6 +42,27 @@
          </div>
       </header>
 
+      <section class="container">
+         <div class="text-center">
+            <p>
+               Merci pour votre commande. A bientôt sur Orinoco.
+            </p>
+         </div>
+         <div class="text-center">
+            <p>
+               Le prix total de votre commande est de : <span id="total"></span>
+            </p>
+            <p>
+               Votre identifiant de commande est le : <span id="id_confirm"></span>
+            </p>
+         </div>
+         <div class="text-center">
+            <p>
+            <a href="index.html" id="clear">Retour vers l'Accueil</a>
+            </p>
+         </div>
+      </section>
+
       <footer class="container">
             <ul class="list-inline d-flex justify-content-center py-2 my-0">
                <li class="list-inline-item">
@@ -61,7 +82,7 @@
      <script src="node_modules/jquery/dist/jquery.min.js"></script>
      <script src="node_modules/@popperjs/core/dist/umd/popper-base.min.js"></script>
      <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-     <script src="./js/panier.js"></script>
+     <script src="./js/confirmation.js"></script>
 </body>
 
 </html>

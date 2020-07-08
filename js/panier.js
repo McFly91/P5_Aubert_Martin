@@ -26,11 +26,14 @@ const cart = () => {
             tdTotal = document.getElementsByClassName("total");
 
             // Boucle qui vient récupérer le prix total de chaque caméra pour les envoyer vers le prix total
-            let totalCameras = 0;
+            let totalCost = 0;
             for (i = 0; i < tdTotal.length; i++) {
-                totalCameras = totalCameras + parseFloat(tdTotal[i].innerText);
+                totalCost = totalCost + parseFloat(tdTotal[i].innerText);
             }
-            totalCart.innerHTML = totalCameras;
+            totalCart.innerHTML = totalCost;
+
+            // On stock le prix total dans le local storage
+            localStorage.setItem("prixTotal", totalCost);
 
             // Fonction pour vider la panier
             clearCart.addEventListener("click", () => {
@@ -57,100 +60,55 @@ form.addEventListener("keyup", () => {
             inputs[i].style.border = "none";
         }
     }
-
-    // On récupère les valeurs saisies dans les champs du formualire
-    let firstName = document.getElementById("validationServer01").value;
-    let lastName = document.getElementById("validationServer02").value;
-    let adress = document.getElementById("validationServer03").value;
-    let city = document.getElementById("validationServer04").value;
-    let email = document.getElementById("validationServer05").value;
-
-    // On crée un objet contact qui récupère toutes les infos saisies
-    contact = {
-        firstName,
-        lastName,
-        adress,
-        city,
-        email
-    };
-    console.log(contact);
 });
 
-let products = localStorage.getItem("cameraInCart");
-products = JSON.stringify(products);
+// On récupère les produits de la page panier
+let product = localStorage.getItem("cameraInCart");
+product = JSON.parse(product);
+let products = [];
 
+// On récupère l'ID des caméras qu'on insère dans un tableau products
+for (let i =0; i < product.length; i++) {
+    products.push(product[i]._id);
+};
 console.log(products);
-
-let request = new XMLHttpRequest();
 
 form.addEventListener("submit", (event) => {
     event.preventDefault();
-
-    request.open("POST", "http://localhost:3000/api/cameras/order", true);
+    
+    let request = new XMLHttpRequest();
+    console.log(request);
+    request.open("POST", "http://localhost:3000/api/cameras/order");
     request.onreadystatechange = function () {
       if(request.readyState === XMLHttpRequest.DONE) {
         let status = request.status;
+        console.log(status);
         if (status === 0 || (status >= 200 && status < 400)) {
-          console.log(request.responseText);
+          let response = JSON.parse(this.responseText);
+          let orderId = response.orderId;
+          localStorage.setItem("orderId", orderId);
+          console.log(orderId);
         } 
         else {
           console.log("There has been an error with the request!");
-        };
-      };
-    };
-    request.setRequestHeader("Content-Type", "application/json");
-    request.send(contact + products);
+        }
+      }
+    }
 
-    console.log("envoyé");
+    // On crée un objet contact qui récupère toutes les infos saisies dans les champs du formulaire
+    let contact = {
+        firstName : document.getElementById("validationServer01").value,
+        lastName : document.getElementById("validationServer02").value,
+        address : document.getElementById("validationServer03").value,
+        city : document.getElementById("validationServer04").value,
+        email : document.getElementById("validationServer05").value
+    };
+
+    request.setRequestHeader("Content-Type", "application/json");
+    request.send(JSON.stringify({contact, products}));
+
+    if (localStorage.getItem("orderId")) {
+        window.location.href = 'confirmation.html';
+    };
 });
 
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-// Envoi du formulaire
-/*const formValidation = (contact) => {
-    let request = new XMLHttpRequest();
-    
-    request.onreadystatechange = function () {
-        if (this.readyState >= XMLHttpRequest.DONE && this.status < 200) {
-            //callback(request.responseText);
-            console.log("ok");
-        }
-        else {
-            console.error(request.status + " " + request.statusText + " http://localhost:3000/api/cameras/order");
-        };        
-        
-        let contact = new FormData(form);   
-        request.open("POST", "http://localhost:3000/api/cameras/order");
-        request.setRequestHeader("Content-Type", "application/json");
-        request.send(JSON.stringify(contact));
-
-        request.addEventListener("error", function () {
-            console.error("Erreur réseau avec l'URL " + "http://localhost:3000/api/cameras/order");
-        });
-    };
-
-    submit.addEventListener("submit", (e) => { 
-        e.preventDefault;
-    });
-    
-};
-
-let submit = document.getElementById("btn_submit");
-
-let form = document.getElementsByClassName("needs-validation");
-            
-    formValidation(contact);
-    console.log("formulaire " + JSON.stringify(contact) + " a été envoyé au serveur");
-    console.log(submit);
-});*/
