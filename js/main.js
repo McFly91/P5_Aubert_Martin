@@ -1,10 +1,13 @@
 let request = new XMLHttpRequest();
 
 let url = "http://localhost:3000/api/cameras";
-      
+
+// On test la connection avec l'API et on affiche les caméras
 request.onreadystatechange = function() {
     if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
         let response = JSON.parse(this.responseText);
+
+        // Pour chaque caméra, on structure l'affichage sous forme d'une liste
         response.forEach(camera => {
         let li = document.createElement("li");
         li.classList.add("list-group-item", "bg-light");
@@ -22,9 +25,9 @@ request.onreadystatechange = function() {
                     document.getElementById("number_in_cart").textContent = cameraNumbers;
                 }
             };
-
             cartNumbers();
     };
 };
+
 request.open("GET", url);
 request.send();

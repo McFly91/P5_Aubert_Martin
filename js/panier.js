@@ -5,7 +5,6 @@ const cartNumbers = () => {
         document.getElementById("number_in_cart").textContent = cameraNumbers;
     }
 };
-
 cartNumbers();
 
 // Fonction pour ajouter les éléments sur la page panier
@@ -47,17 +46,19 @@ cart();
 
 let form = document.getElementById("form");
 let inputs = document.getElementsByClassName("form-control");
+let submit = document.getElementById("form_submit");
 let contact = {};
 
-// On vérifie que les valeurs saisies du formulaire correspondent aux restrictions de champs
+// On vérifie que les valeurs saisies du formulaire correspondent aux restrictions de champs et on empêche l'envoi du formaulaire dans le cas contraire
 form.addEventListener("keyup", () => {
     for (let i = 0; i < inputs.length; i++) {
-        if (inputs[i].validity.typeMismatch == true || inputs[i].validity.patternMismatch == true) {
+        if (inputs[i].validity.typeMismatch == true || inputs[i].validity.patternMismatch == true || inputs[i].value == "") {
             inputs[i].style.border = "2px solid #dc3545";
-            console.log("erreur");        
+            submit.disabled = true;
         }
         else {
             inputs[i].style.border = "none";
+            submit.disabled = false;
         }
     }
 });
@@ -74,29 +75,32 @@ if (product !== null) {
     };
 };
 
+// On crée une fonction pour envoyer le formulaire et le tableau de produits en utilisant une Promesse
+const post = (contact) => {
+    // On crée une Promesse qui va se résoudre si la connexion avec l'API est OK ou retourner une erreur dans le cas contraire
+    return new Promise ((resolve, reject) => {
+        let request = new XMLHttpRequest();
+        request.open("POST", "http://localhost:3000/api/cameras/order");
+    
+        // On vérifie l'état de la requête et on récupère l'ID de confirmation
+        request.onreadystatechange = function () {
+                if (this.status >= 200 && this.status < 400) {
+                    let response = JSON.parse(this.responseText);
+                    let orderId = response.orderId;
+                    resolve(localStorage.setItem("orderId", orderId));
+                }
+                else {
+                    reject(console.error(request.statusText));
+                }
+        };
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(JSON.stringify({contact, products}));
+    });
+};
+
 // On envoie le formulaire dès l'appui sur le bouton passer commande
 form.addEventListener("submit", (event) => {
     event.preventDefault();
-    
-    let request = new XMLHttpRequest();
-    console.log(request);
-    request.open("POST", "http://localhost:3000/api/cameras/order");
-
-    // On vérifie l'état de la requête et on récupère l'ID de confirmation
-    request.onreadystatechange = function () {
-      if(request.readyState === XMLHttpRequest.DONE) {
-        let status = request.status;
-        console.log(status);
-        if (status === 0 || (status >= 200 && status < 400)) {
-          let response = JSON.parse(this.responseText);
-          let orderId = response.orderId;
-          localStorage.setItem("orderId", orderId);
-        } 
-        else {
-          console.log("There has been an error with the request!");
-        };
-      };
-    };
 
     // On crée un objet contact qui récupère toutes les infos saisies dans les champs du formulaire
     let contact = {
@@ -107,14 +111,11 @@ form.addEventListener("submit", (event) => {
         email : document.getElementById("validationServer05").value
     };
 
-    request.setRequestHeader("Content-Type", "application/json");
-    request.send(JSON.stringify({contact, products}));
-
-    // On redirige vers la page confirmation dès qu'on a récupéré l"ID de confirmation
-        setTimeout(function() {
-            if (localStorage.getItem("orderId")) {
+    // On appelle la fonction et on lui chaine un message puis une redirection vers la page confirmation si la promesse est résolue ou alors on capture l'erreur 
+    post(contact)
+        .then(console.log("Formulaire envoyé sous le numéro :" + localStorage.getItem("orderId")))
+        .then(setTimeout(function() {
             window.location.href = "confirmation.html";
-            }
-        }, 500);
+        }, 500))
+    .catch(console.error);
 });
-
